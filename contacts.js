@@ -37,11 +37,24 @@ $('.contact-form').on('submit', function(ev) {
   });
 });
 
+var nameExists = function(arrayOfContacts, name) {
+  return arrayOfContacts.filter((contact) => {
+    return contact.name === name;
+  }).length > 0;
+};
+
 // Show existing contacts
 $.ajax({
   url: `http://tiny-lr.herokuapp.com/collections/contacts-rt`,
   method: `GET`,
   dataType: `json`,
 }).then((response) => {
-  response.forEach(showContact);
+  response.reduce((carry, contact) => {
+    if (!nameExists(carry, contact.name)) {
+      carry.push(contact);
+    }
+
+    return carry;
+  }, [])
+  .forEach(showContact);
 });
