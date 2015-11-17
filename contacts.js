@@ -1,8 +1,10 @@
-// Click on add contact button shows form
-$('.toggle-form').on('click', function() {
+var toggleForm = function() {
   $('.contact-form').slideToggle();
   $('.toggle-form').fadeToggle();
-});
+};
+
+// Click on add contact button shows form
+$('.toggle-form').on('click', toggleForm);
 
 // Submit form saves a contact
 $('.contact-form').on('submit', function(ev) {
@@ -18,7 +20,10 @@ $('.contact-form').on('submit', function(ev) {
     dataType: `json`,
     data: {name, phone},
   }).then((response) => {
-    debugger;
+    // Reset form after submit
+    $(`#contact-name`).val('');
+    $(`#contact-phone`).val('');
+    toggleForm();
   });
 });
 
