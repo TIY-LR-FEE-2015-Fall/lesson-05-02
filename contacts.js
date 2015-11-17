@@ -38,6 +38,7 @@ $('.contact-form').on('submit', function(ev) {
 });
 
 var nameExists = function(arrayOfContacts, name) {
+  // Filter to items with the current name and check if that length is > 0
   return arrayOfContacts.filter((contact) => {
     return contact.name === name;
   }).length > 0;
@@ -50,6 +51,7 @@ $.ajax({
   dataType: `json`,
 }).then((response) => {
   response.reduce((carry, contact) => {
+    // If the name already exists in the final results, don't show it
     if (!nameExists(carry, contact.name)) {
       carry.push(contact);
     }
