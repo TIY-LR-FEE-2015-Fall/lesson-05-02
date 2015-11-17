@@ -28,4 +28,16 @@ $('.contact-form').on('submit', function(ev) {
 });
 
 // Show existing contacts
+$.ajax({
+  url: `http://tiny-lr.herokuapp.com/collections/contacts-rt`,
+  method: `GET`,
+  dataType: `json`,
+}).then((response) => {
+  response.forEach((contact) => {
+    $('<li></li>')
+      .text(`${contact.name} - ${contact.phone}`)
+      .appendTo('.contact-list');
+  });
+});
+
 // Add contact right away to list
