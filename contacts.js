@@ -1,6 +1,13 @@
+/* globals $ */
 var toggleForm = function() {
   $('.contact-form').slideToggle();
   $('.toggle-form').fadeToggle();
+};
+
+var showContact = function(contact) {
+  $('<li></li>')
+    .text(`${contact.name} - ${contact.phone}`)
+    .appendTo('.contact-list');
 };
 
 // Click on add contact button shows form
@@ -24,6 +31,9 @@ $('.contact-form').on('submit', function(ev) {
     $(`#contact-name`).val('');
     $(`#contact-phone`).val('');
     toggleForm();
+
+    // Add contact right away to list
+    showContact(response);
   });
 });
 
@@ -33,11 +43,5 @@ $.ajax({
   method: `GET`,
   dataType: `json`,
 }).then((response) => {
-  response.forEach((contact) => {
-    $('<li></li>')
-      .text(`${contact.name} - ${contact.phone}`)
-      .appendTo('.contact-list');
-  });
+  response.forEach(showContact);
 });
-
-// Add contact right away to list
